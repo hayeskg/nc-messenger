@@ -244,7 +244,6 @@ $(function () {
 
   // Whenever the server emits 'user joined', log it in the chat body
   socket.on('user joined', (data) => {
-    console.log(data)
     log(data.username + ' joined');
     addParticipantsMessage(data);
   });

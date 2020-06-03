@@ -70,12 +70,19 @@ io.on('connection', (socket) => {
   socket.on('disconnect', () => {
     if (addedUser) {
       --numUsers;
-
+      const updatedList = users.filter(user => {
+        console.log(user)
+        return user !== socket.username
+      })
       // echo globally that this client has left
       socket.broadcast.emit('user left', {
         username: socket.username,
-        numUsers: numUsers
+        numUsers: numUsers,
+        userList: updatedList,
       });
     }
+
   });
 });
+
+/// user = userList;
