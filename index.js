@@ -16,7 +16,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Chatroom
 
 let numUsers = 0;
-const users = [];
+let users = [];
 
 io.on('connection', (socket) => {
   var addedUser = false;
@@ -70,18 +70,15 @@ io.on('connection', (socket) => {
   socket.on('disconnect', () => {
     if (addedUser) {
       --numUsers;
-      const updatedList = users.filter(user => {
-        console.log(user)
-        return user !== socket.username
-      })
+      let listCopy = [...users]
+      users = listCopy.filter(user => user !== socket.username)
       // echo globally that this client has left
       socket.broadcast.emit('user left', {
         username: socket.username,
         numUsers: numUsers,
-        userList: updatedList,
+        userList: users,
       });
     }
-
   });
 });
 
