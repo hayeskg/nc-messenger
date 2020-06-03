@@ -30,7 +30,8 @@ $(function () {
     if (data.numUsers === 1) {
       message += "there's 1 participant";
     } else {
-      message += "there are " + data.numUsers + " participants";
+      const userStr = data.userList.join(', ')
+      message += "there are " + data.numUsers + " participants, " + userStr;
     }
     log(message);
   }
@@ -227,7 +228,6 @@ $(function () {
 
   // Whenever the server emits 'login', log the login message
   socket.on('login', (data) => {
-    console.log(data)
     connected = true;
     // Display the welcome message
     var message = "Welcome to Socket.IO Chat – ";
@@ -244,6 +244,7 @@ $(function () {
 
   // Whenever the server emits 'user joined', log it in the chat body
   socket.on('user joined', (data) => {
+    console.log(data)
     log(data.username + ' joined');
     addParticipantsMessage(data);
   });

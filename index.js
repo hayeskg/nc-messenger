@@ -15,7 +15,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Chatroom
 
-var numUsers = 0;
+let numUsers = 0;
+const users = [];
 
 io.on('connection', (socket) => {
   var addedUser = false;
@@ -36,15 +37,18 @@ io.on('connection', (socket) => {
     // we store the username in the socket session for this client
     socket.username = username;
     ++numUsers;
+    users.push(username);
     addedUser = true;
     socket.emit('login', {
       numUsers: numUsers,
       userName: username,
+      userList: users,
     });
     // echo globally (all clients) that a person has connected
     socket.broadcast.emit('user joined', {
       username: socket.username,
-      numUsers: numUsers
+      numUsers: numUsers,
+      userList: users,
     });
   });
 
