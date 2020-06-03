@@ -1,4 +1,4 @@
-$(function() {
+$(function () {
   var FADE_TIME = 150; // ms
   var TYPING_TIMER_LENGTH = 400; // ms
   var COLORS = [
@@ -30,7 +30,8 @@ $(function() {
     if (data.numUsers === 1) {
       message += "there's 1 participant";
     } else {
-      message += "there are " + data.numUsers + " participants";
+      const userStr = data.userList.join(', ')
+      message += "there are " + data.numUsers + " participants, " + userStr;
     }
     log(message);
   }
@@ -69,7 +70,7 @@ $(function() {
   }
 
   // Log a message
-    const log = (message, options) => {
+  const log = (message, options) => {
     var $el = $('<li>').addClass('log').text(message);
     addMessageElement($el, options);
   }
@@ -181,7 +182,7 @@ $(function() {
     // Compute hash code
     var hash = 7;
     for (var i = 0; i < username.length; i++) {
-       hash = username.charCodeAt(i) + (hash << 5) - hash;
+      hash = username.charCodeAt(i) + (hash << 5) - hash;
     }
     // Calculate color
     var index = Math.abs(hash % COLORS.length);
